@@ -60,6 +60,7 @@
                 iframe.style.display = "none";
                 iframe.src = url;
                 document.body.appendChild(iframe);
+                /*
                 window.setTimeout(function() {
                     window.location.href = fallbackUrl;
                 }, 2500);
@@ -67,6 +68,17 @@
                 window.setTimeout(function() {
                     window.close();
                 }, 3000);
+                */
+            }
+
+            // Function to simulate a click on a link
+            function simulateClick(url) {
+                var a = document.createElement('a');
+                a.href = url;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             }
 
             // Get the dynamic link from the URL parameter
@@ -76,21 +88,21 @@
             if (dynamicLink) {
                 if (isFacebookApp()) {
                     logMessage('Redirecting to dynamic link inside Facebook app');
-                    window.location.href = dynamicLink;
+                    simulateClick(dynamicLink);
                 } else if (isAndroid()) {
                     logMessage('Redirecting to dynamic link using intent URL with fallback');
                     redirectWithFallback(`intent:${dynamicLink}#Intent;end`, "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg");
                 } else {
                     logMessage('Redirecting to dynamic link using fallback');
-                    window.location.href = dynamicLink;
+                    simulateClick(dynamicLink);
                 }
             } else {
                 if (isIOS()) {
                     logMessage('No dynamic link provided. Opening the Apple App Store page.');
-                    window.location.href = "https://apps.apple.com/app/id1638948802";
+                    simulateClick("https://apps.apple.com/app/id1638948802");
                 } else if (isAndroid()) {
                     logMessage('No dynamic link provided. Opening the Google Play Store page.');
-                    window.location.href = "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg";
+                    simulateClick("https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg");
                 } else {
                     logMessage('No dynamic link provided. Unable to determine platform.');
                     document.getElementById('logContainer').innerHTML = "<p>Няма предоставен динамичен линк и не може да се определи платформата.</p>";
