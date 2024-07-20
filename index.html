@@ -13,8 +13,16 @@
     <meta property="al:ios:app_name" content="Sopharmacy">
     <meta property="al:ios:app_store_id" content="1638948802">
     <meta property="al:ios:url" content="https://apps.apple.com/app/id1638948802">
-    <title>Пренасочване...</title>
+    <title>Redirecting...</title>
     <script>
+        // Function to log messages to the page
+        function logMessage(message) {
+            var logContainer = document.getElementById('logContainer');
+            var logEntry = document.createElement('p');
+            logEntry.textContent = message;
+            logContainer.appendChild(logEntry);
+        }
+
         // Function to get query parameter
         function getQueryParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -55,14 +63,6 @@
             }, 3000);
         }
 
-        // Function to log messages to the page
-        function logMessage(message) {
-            var logContainer = document.getElementById('logContainer');
-            var logEntry = document.createElement('p');
-            logEntry.textContent = message;
-            logContainer.appendChild(logEntry);
-        }
-
         // Get the dynamic link from the URL parameter
         const dynamicLink = getQueryParameter('link');
         logMessage(`Dynamic Link: ${dynamicLink}`);
@@ -87,14 +87,14 @@
                 window.location.href = "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg";
             } else {
                 logMessage('No dynamic link provided. Unable to determine platform.');
-                document.write("Няма предоставен динамичен линк и не може да се определи платформата.");
+                document.getElementById('logContainer').innerHTML = "<p>Няма предоставен динамичен линк и не може да се определи платформата.</p>";
             }
         }
     </script>
 </head>
 <body>
     <div id="logContainer">
-        <p>Пренасочване към приложението...</p>
+        <p>Redirectiong...</p>
     </div>
 </body>
 </html>
