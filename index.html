@@ -13,11 +13,12 @@
     <meta property="al:ios:app_name" content="Sopharmacy">
     <meta property="al:ios:app_store_id" content="1638948802">
     <meta property="al:ios:url" content="https://apps.apple.com/app/id1638948802">
-    <title>Пренасочване...</title>
+    <title> Пренасочване...</title>
 </head>
 <body>
     <div id="logContainer">
         <p>Пренасочване към приложението...</p>
+        <p>v10</p>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -28,6 +29,13 @@
                 logEntry.textContent = message;
                 logContainer.appendChild(logEntry);
             }
+
+            // Override console.error to log errors to the page
+            console.originalError = console.error;
+            console.error = function(message) {
+                logMessage('Error: ' + message);
+                console.originalError.apply(console, arguments);
+            };
 
             // Function to get query parameter
             function getQueryParameter(name) {
@@ -71,16 +79,6 @@
                 */
             }
 
-            // Function to simulate a click on a link
-            function simulateClick(url) {
-                var a = document.createElement('a');
-                a.href = url;
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            }
-
             // Get the dynamic link from the URL parameter
             const dynamicLink = getQueryParameter('link');
             logMessage(`Dynamic Link: ${dynamicLink}`);
@@ -88,21 +86,21 @@
             if (dynamicLink) {
                 if (isFacebookApp()) {
                     logMessage('Redirecting to dynamic link inside Facebook app');
-                    simulateClick(dynamicLink);
+                    window.location.href = dynamicLink;
                 } else if (isAndroid()) {
                     logMessage('Redirecting to dynamic link using intent URL with fallback');
                     redirectWithFallback(`intent:${dynamicLink}#Intent;end`, "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg");
                 } else {
                     logMessage('Redirecting to dynamic link using fallback');
-                    simulateClick(dynamicLink);
+                    window.location.href = dynamicLink;
                 }
             } else {
                 if (isIOS()) {
                     logMessage('No dynamic link provided. Opening the Apple App Store page.');
-                    simulateClick("https://apps.apple.com/app/id1638948802");
+                    window.location.href = "https://apps.apple.com/app/id1638948802";
                 } else if (isAndroid()) {
                     logMessage('No dynamic link provided. Opening the Google Play Store page.');
-                    simulateClick("https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg");
+                    window.location.href = "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg";
                 } else {
                     logMessage('No dynamic link provided. Unable to determine platform.');
                     document.getElementById('logContainer').innerHTML = "<p>Няма предоставен динамичен линк и не може да се определи платформата.</p>";
