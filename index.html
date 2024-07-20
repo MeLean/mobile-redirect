@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Sopharmacy App">
+    <meta property="og:description" content="Изтеглете приложението Sopharmacy от Google Play Store или Apple App Store.">
+    <meta property="og:image" content="https://sopharmacy.bg/media/sys_master/hce/he7/9133161414686.jpg">
+    <meta property="og:url" content="https://melean.github.io/mobile-redirect/">
+    <meta property="al:android:app_name" content="Sopharmacy">
+    <meta property="al:android:package" content="com.yourcompany.sopharmacy">
+    <meta property="al:android:url" content="https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg">
+    <meta property="al:ios:app_name" content="Sopharmacy">
+    <meta property="al:ios:app_store_id" content="1638948802">
+    <meta property="al:ios:url" content="https://apps.apple.com/app/id1638948802">
+    <title>Пренасочване...</title>
+    <script>
+        // Function to get query parameter
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const value = urlParams.get(name);
+            console.log(`Query parameter ${name}:`, value);  // Log the parameter value
+            return value;
+        }
+
+        // Enhanced function to check if the user is using Facebook or Instagram in-app browser
+        function isFacebookApp() {
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            console.log('User Agent:', ua);  // Log the user agent string
+            return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+        }
+
+        // Function to detect iOS platform
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+
+        // Function to detect Android platform
+        function isAndroid() {
+            return /Android/.test(navigator.userAgent);
+        }
+
+        // Get the dynamic link from the URL parameter
+        const dynamicLink = getQueryParameter('link');
+        console.log('Dynamic Link:', dynamicLink);  // Log the dynamic link
+
+        if (dynamicLink) {
+            if (isFacebookApp()) {
+                console.log('Redirecting to dynamic link inside Facebook app');
+                window.location.href = dynamicLink;
+            } else {
+                console.log('Redirecting to dynamic link using intent URL');
+                window.location.href = `intent:${dynamicLink}#Intent;end`;
+            }
+        } else {
+            if (isIOS()) {
+                console.log('No dynamic link provided. Opening the Apple App Store page.');
+                // No dynamic link provided, open the Apple App Store page
+                window.location.href = "https://apps.apple.com/app/id1638948802";
+            } else if (isAndroid()) {
+                console.log('No dynamic link provided. Opening the Google Play Store page.');
+                // No dynamic link provided, open the Google Play Store page
+                window.location.href = "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg";
+            } else {
+                console.log('No dynamic link provided. Unable to determine platform.');
+                document.write("Няма предоставен динамичен линк и не може да се определи платформата.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <p>Пренасочване към приложението...</p>
+</body>
+</html>
