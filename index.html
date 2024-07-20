@@ -13,88 +13,90 @@
     <meta property="al:ios:app_name" content="Sopharmacy">
     <meta property="al:ios:app_store_id" content="1638948802">
     <meta property="al:ios:url" content="https://apps.apple.com/app/id1638948802">
-    <title>Redirecting...</title>
-    <script>
-        // Function to log messages to the page
-        function logMessage(message) {
-            var logContainer = document.getElementById('logContainer');
-            var logEntry = document.createElement('p');
-            logEntry.textContent = message;
-            logContainer.appendChild(logEntry);
-        }
-
-        // Function to get query parameter
-        function getQueryParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const value = urlParams.get(name);
-            logMessage(`Query parameter ${name}: ${value}`);
-            return value;
-        }
-
-        // Enhanced function to check if the user is using Facebook or Instagram in-app browser
-        function isFacebookApp() {
-            var ua = navigator.userAgent || navigator.vendor || window.opera;
-            logMessage(`User Agent: ${ua}`);
-            return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
-        }
-
-        // Function to detect iOS platform
-        function isIOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        }
-
-        // Function to detect Android platform
-        function isAndroid() {
-            return /Android/.test(navigator.userAgent);
-        }
-
-        // Redirect with a fallback
-        function redirectWithFallback(url, fallbackUrl) {
-            var iframe = document.createElement("iframe");
-            iframe.style.display = "none";
-            iframe.src = url;
-            document.body.appendChild(iframe);
-            window.setTimeout(function() {
-                window.location.href = fallbackUrl;
-            }, 2500);
-            // Attempt to close the browser tab if deep linking is successful
-            window.setTimeout(function() {
-                window.close();
-            }, 3000);
-        }
-
-        // Get the dynamic link from the URL parameter
-        const dynamicLink = getQueryParameter('link');
-        logMessage(`Dynamic Link: ${dynamicLink}`);
-
-        if (dynamicLink) {
-            if (isFacebookApp()) {
-                logMessage('Redirecting to dynamic link inside Facebook app');
-                window.location.href = dynamicLink;
-            } else if (isAndroid()) {
-                logMessage('Redirecting to dynamic link using intent URL with fallback');
-                redirectWithFallback(`intent:${dynamicLink}#Intent;end`, "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg");
-            } else {
-                logMessage('Redirecting to dynamic link using fallback');
-                window.location.href = dynamicLink;
-            }
-        } else {
-            if (isIOS()) {
-                logMessage('No dynamic link provided. Opening the Apple App Store page.');
-                window.location.href = "https://apps.apple.com/app/id1638948802";
-            } else if (isAndroid()) {
-                logMessage('No dynamic link provided. Opening the Google Play Store page.');
-                window.location.href = "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg";
-            } else {
-                logMessage('No dynamic link provided. Unable to determine platform.');
-                document.getElementById('logContainer').innerHTML = "<p>Няма предоставен динамичен линк и не може да се определи платформата.</p>";
-            }
-        }
-    </script>
+    <title>Пренасочване...</title>
 </head>
 <body>
     <div id="logContainer">
-        <p>Redirectiong...</p>
+        <p>Пренасочване към приложението...</p>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to log messages to the page
+            function logMessage(message) {
+                var logContainer = document.getElementById('logContainer');
+                var logEntry = document.createElement('p');
+                logEntry.textContent = message;
+                logContainer.appendChild(logEntry);
+            }
+
+            // Function to get query parameter
+            function getQueryParameter(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const value = urlParams.get(name);
+                logMessage(`Query parameter ${name}: ${value}`);
+                return value;
+            }
+
+            // Enhanced function to check if the user is using Facebook or Instagram in-app browser
+            function isFacebookApp() {
+                var ua = navigator.userAgent || navigator.vendor || window.opera;
+                logMessage(`User Agent: ${ua}`);
+                return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+            }
+
+            // Function to detect iOS platform
+            function isIOS() {
+                return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            }
+
+            // Function to detect Android platform
+            function isAndroid() {
+                return /Android/.test(navigator.userAgent);
+            }
+
+            // Redirect with a fallback
+            function redirectWithFallback(url, fallbackUrl) {
+                var iframe = document.createElement("iframe");
+                iframe.style.display = "none";
+                iframe.src = url;
+                document.body.appendChild(iframe);
+                window.setTimeout(function() {
+                    window.location.href = fallbackUrl;
+                }, 2500);
+                // Attempt to close the browser tab if deep linking is successful
+                window.setTimeout(function() {
+                    window.close();
+                }, 3000);
+            }
+
+            // Get the dynamic link from the URL parameter
+            const dynamicLink = getQueryParameter('link');
+            logMessage(`Dynamic Link: ${dynamicLink}`);
+
+            if (dynamicLink) {
+                if (isFacebookApp()) {
+                    logMessage('Redirecting to dynamic link inside Facebook app');
+                    window.location.href = dynamicLink;
+                } else if (isAndroid()) {
+                    logMessage('Redirecting to dynamic link using intent URL with fallback');
+                    redirectWithFallback(`intent:${dynamicLink}#Intent;end`, "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg");
+                } else {
+                    logMessage('Redirecting to dynamic link using fallback');
+                    window.location.href = dynamicLink;
+                }
+            } else {
+                if (isIOS()) {
+                    logMessage('No dynamic link provided. Opening the Apple App Store page.');
+                    window.location.href = "https://apps.apple.com/app/id1638948802";
+                } else if (isAndroid()) {
+                    logMessage('No dynamic link provided. Opening the Google Play Store page.');
+                    window.location.href = "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg";
+                } else {
+                    logMessage('No dynamic link provided. Unable to determine platform.');
+                    document.getElementById('logContainer').innerHTML = "<p>Няма предоставен динамичен линк и не може да се определи платформата.</p>";
+                }
+            }
+        });
+    </script>
 </body>
 </html>
