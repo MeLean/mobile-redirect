@@ -40,6 +40,21 @@
             return /Android/.test(navigator.userAgent);
         }
 
+        // Redirect with a fallback
+        function redirectWithFallback(url, fallbackUrl) {
+            var iframe = document.createElement("iframe");
+            iframe.style.display = "none";
+            iframe.src = url;
+            document.body.appendChild(iframe);
+            window.setTimeout(function() {
+                window.location.href = fallbackUrl;
+            }, 2500);
+            // Attempt to close the browser tab if deep linking is successful
+            window.setTimeout(function() {
+                window.close();
+            }, 3000);
+        }
+
         // Get the dynamic link from the URL parameter
         const dynamicLink = getQueryParameter('link');
         console.log('Dynamic Link:', dynamicLink);  // Log the dynamic link
@@ -48,9 +63,12 @@
             if (isFacebookApp()) {
                 console.log('Redirecting to dynamic link inside Facebook app');
                 window.location.href = dynamicLink;
+            } else if (isAndroid()) {
+                console.log('Redirecting to dynamic link using intent URL with fallback');
+                redirectWithFallback(`intent:${dynamicLink}#Intent;end`, "https://play.google.com/store/search?q=sopharmacy+app&c=apps&hl=bg");
             } else {
-                console.log('Redirecting to dynamic link using intent URL');
-                window.location.href = `intent:${dynamicLink}#Intent;end`;
+                console.log('Redirecting to dynamic link using fallback');
+                window.location.href = dynamicLink;
             }
         } else {
             if (isIOS()) {
